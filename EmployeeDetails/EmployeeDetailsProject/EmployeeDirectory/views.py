@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from EmployeeManagement import models
 
 # Create your views here.
 def display(request):
-    return HttpResponse("Display")
+    employees = models.Employee.objects.all()
+    return render(request, "employeeDetails.html", {'employees': employees})

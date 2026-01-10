@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 class Employee(models.Model):
     # Name fields
@@ -34,7 +35,8 @@ class Employee(models.Model):
     ]
 
     designation = models.CharField(max_length=50, choices=DESIGNATION_CHOICES)
-
+    about = models.TextField(null=True)
+    dateOfJoining = models.DateField(null=False, default=now)
 
     # Timestamps
     createdAt = models.DateTimeField(auto_now_add=True)

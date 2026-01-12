@@ -1,0 +1,172 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    min-height: 100vh;
+}
+
+/* Centering Container */
+.detail-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Card */
+.detail-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 14px;
+    padding: 30px 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Photo */
+.detail-photo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.detail-photo img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #4f46e5;
+}
+
+/* No Image */
+.no-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Name */
+.employee-name {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+/* Designation */
+.designation {
+    font-size: 15px;
+    color: #4f46e5;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+
+/* Info Section */
+.detail-info {
+    text-align: left;
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+}
+
+.detail-info p {
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.detail-info p:last-child {
+    margin-bottom: 0;
+}
+
+.detail-info strong {
+    color: #111827;
+}
+
+/* About Section */
+.about-section {
+    text-align: left;
+}
+
+.about-section h3 {
+    font-size: 16px;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.about-section p {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .detail-card {
+        padding: 22px 18px;
+    }
+
+    .employee-name {
+        font-size: 20px;
+    }
+
+    .detail-photo img,
+    .no-image {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: #4f46e5;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-btn:hover {
+    background-color: #4338ca;
+    transform: translateY(-2px);
+}

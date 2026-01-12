@@ -5,56 +5,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Records</title>
-
     <link rel="stylesheet" href="{% static 'css/employeeDetails.css' %}">
 </head>
 
 <body>
 
-    <!-- Page Heading -->
     <h1 class="page-title">Employee Records</h1>
 
-    <!-- Employee Cards -->
     <div class="employee-container">
 
         {% for employee in employees %}
-        <div class="employee-card">
+        <a href="{% url 'EmployeeDirectory:displayEmployee' employee.pk %}" class="employee-link">
 
-            <!-- Left: Photo -->
-            <div class="employee-photo">
-                {% if employee.photo %}
-                <img src="{{ employee.photo.url }}" alt="Employee Photo">
-                {% else %}
-                <div class="no-image">
-                    Image not available
+            <div class="employee-card">
+
+                <!-- Photo -->
+                <div class="employee-photo">
+                    {% if employee.photo %}
+                    <img src="{{ employee.photo.url }}" alt="Employee Photo">
+                    {% else %}
+                    <div class="no-image">Image not available</div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div>
 
-            <!-- Right: Details -->
-            <div class="employee-details">
-                <div class="details-content">
+                <!-- Details -->
+                <div class="employee-details">
+                    <div class="details-content">
 
-                    <h2 class="employee-name">
-                        {{ employee.firstName }}
-                        {% if employee.middleName %}{{ employee.middleName }}{% endif %}
-                        {{ employee.lastName }}
-                    </h2>
+                        <h2 class="employee-name">
+                            {{ employee.firstName }}
+                            {% if employee.middleName %}{{ employee.middleName }}{% endif %}
+                            {{ employee.lastName }}
+                        </h2>
 
-                    <p class="designation">
-                        {{ employee.designation }}
-                    </p>
+                        <p class="designation">{{ employee.designation }}</p>
 
-                    <div class="info-grid">
-                        <p><span>Email:</span> {{ employee.emailAddress }}</p>
+                        <div class="info-grid">
+                            <p><span>Email:</span> {{ employee.emailAddress }}</p>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
 
-        </div>
+        </a>
         {% empty %}
         <p class="no-records">No employee records found.</p>
         {% endfor %}
+
     </div>
 
 </body>

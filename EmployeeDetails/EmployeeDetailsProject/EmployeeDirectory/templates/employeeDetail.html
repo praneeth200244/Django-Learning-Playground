@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="{% static 'css/employeeDetail.css' %}">
+</head>
+
+<body>
+
+    <div class="detail-container">
+
+        <div class="detail-card">
+
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="nav-btn">Home</a>
+                <a href="{% url 'EmployeeDirectory:display' %}" class="nav-btn">Employee Directory</a>
+                <a href="{% url 'EmployeeManagement:updateDelete' %}" class="nav-btn">Employee Management</a>
+            </div>
+
+            <!-- Photo -->
+            <div class="detail-photo">
+                {% if employee.photo %}
+                <img src="{{ employee.photo.url }}" alt="Employee Photo">
+                {% else %}
+                <div class="no-image">Image not available</div>
+                {% endif %}
+            </div>
+
+            <!-- Name -->
+            <h2 class="employee-name">
+                {{ employee.firstName }}
+                {% if employee.middleName %}{{ employee.middleName }}{% endif %}
+                {{ employee.lastName }}
+            </h2>
+
+            <!-- Designation -->
+            <p class="designation">{{ employee.designation }}</p>
+
+            <!-- Details -->
+            <div class="detail-info">
+                <p><strong>Email:</strong> {{ employee.emailAddress }}</p>
+                <p><strong>Mobile:</strong> {{ employee.mobileNumber|default:"N/A" }}</p>
+                <p><strong>Gender:</strong> {{ employee.get_gender_display }}</p>
+                <p><strong>Date of Joining:</strong> {{ employee.dateOfJoining }}</p>
+            </div>
+
+            <!-- About -->
+            {% if employee.about %}
+            <div class="about-section">
+                <h3>About</h3>
+                <p>{{ employee.about }}</p>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

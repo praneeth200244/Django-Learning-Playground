@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ToDoApplication import models
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 def addTask(request):
@@ -28,3 +30,13 @@ def deleteTask(request, pk):
     task = get_object_or_404(models.Task, pk=pk)
     task.delete()
     return redirect('home')
+
+def editTask(request, pk):
+    if request.method == "POST":
+        task = get_object_or_404(models.Task, pk=pk)
+        new_task = request.POST.get("task", "").strip()
+        if new_task:
+            task.task = new_task
+            task.save()
+        return JsonResponse({"task": task.task})
+    return JsonResponse({"error": "Invalid request"}, status=400)

@@ -7,4 +7,5 @@ urlpatterns = [
     path('mark-as-done/<int:pk>', views.markAsDone, name='markAsDone'),
     path('mark-as-undone/<int:pk>', views.markAsUndone, name='markAsUndone'),
     path('delete-task/<int:pk>', views.deleteTask, name='deleteTask'),
+    path('edit-task/<int:pk>/', views.editTask, name='editTask'),
 ]

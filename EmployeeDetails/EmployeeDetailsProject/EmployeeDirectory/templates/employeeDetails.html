@@ -4,58 +4,65 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Records</title>
     <link rel="stylesheet" href="{% static 'css/employeeDetails.css' %}">
 </head>
 
 <body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-btn">Home</a>
+                <a href="{% url 'EmployeeManagement:updateDelete' %}" class="nav-btn secondary">Employee Management</a>
+            </div>
+        </div>
+    </nav>
 
-    <h1 class="page-title">Employee Records</h1>
+    <header class="header-section">
+        <h1 class="page-title">Employee Records</h1>
+        <p class="subtitle">Manage and view all registered team members</p>
+    </header>
 
-    <div class="employee-container">
-
+    <main class="employee-container">
         {% for employee in employees %}
         <a href="{% url 'EmployeeDirectory:displayEmployee' employee.pk %}" class="employee-link">
-
             <div class="employee-card">
-
-                <!-- Photo -->
                 <div class="employee-photo">
                     {% if employee.photo %}
-                    <img src="{{ employee.photo.url }}" alt="Employee Photo">
+                    <img src="{{ employee.photo.url }}" alt="{{ employee.firstName }}">
                     {% else %}
-                    <div class="no-image">Image not available</div>
+                    <div class="no-image">No Photo</div>
                     {% endif %}
                 </div>
 
-                <!-- Details -->
                 <div class="employee-details">
                     <div class="details-content">
-
+                        <span class="badge">Team Member</span>
                         <h2 class="employee-name">
-                            {{ employee.firstName }}
-                            {% if employee.middleName %}{{ employee.middleName }}{% endif %}
-                            {{ employee.lastName }}
+                            {{ employee.firstName }} {{ employee.lastName }}
                         </h2>
-
                         <p class="designation">{{ employee.designation }}</p>
 
                         <div class="info-grid">
-                            <p><span>Email:</span> {{ employee.emailAddress }}</p>
+                            <div class="info-item">
+                                <span class="label">Email:</span>
+                                <span class="value">{{ employee.emailAddress }}</span>
+                            </div>
                         </div>
-
+                    </div>
+                    <div class="card-footer">
+                        <span class="view-profile">View Profile →</span>
                     </div>
                 </div>
-
             </div>
-
         </a>
         {% empty %}
-        <p class="no-records">No employee records found.</p>
+        <div class="no-records-card">
+            <p class="no-records">No employee records found.</p>
+        </div>
         {% endfor %}
-
-    </div>
-
+    </main>
 </body>
 
 </html>

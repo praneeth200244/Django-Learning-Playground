@@ -1,56 +1,113 @@
-/* Body & background */
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --bg-light: #f8f9ff;
+    --glass: rgba(255, 255, 255, 0.8);
+}
+
 body {
-    background: #f0f2f5;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    font-family: 'Inter', sans-serif;
+    color: #2b2d42;
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* Section title */
-.section-title {
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-    color: #212529;
+/* Background Blobs for Visual Interest */
+.bg-blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(67, 97, 238, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+    top: -100px;
+    right: -100px;
+    z-index: -1;
+    border-radius: 50%;
 }
 
-/* App Cards */
+.bg-blob-2 {
+    top: 60%;
+    left: -200px;
+    background: radial-gradient(circle, rgba(72, 202, 228, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* Typography Enhancements */
+.fw-extrabold {
+    font-weight: 800;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, var(--primary-color), #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glass Navbar */
+.glass-nav {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.brand-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* App Cards Evolution */
 .app-card {
-    border-radius: 15px;
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .app-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px rgba(67, 97, 238, 0.15);
 }
 
-/* Card titles */
-.app-card .card-title {
-    font-size: 1.75rem;
+.icon-box {
+    font-size: 2.5rem;
+    width: 70px;
+    height: 70px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Button Refinement */
+.btn-custom {
+    border-radius: 12px;
     font-weight: 600;
-    color: #0d6efd;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
-/* Card text */
-.app-card .card-text {
-    font-size: 1rem;
-    line-height: 1.6;
+.btn-primary {
+    background: var(--primary-color);
+    border: none;
 }
 
-/* Buttons */
-.btn-shadow {
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: scale(1.02);
 }
 
-.btn-shadow:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.6);
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
-/* Footer */
-.footer {
-    font-size: 0.9rem;
-    background: #ffffff;
-    color: #6c757d;
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
 }

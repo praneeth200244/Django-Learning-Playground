@@ -97,7 +97,8 @@
                                     class="btn btn-success btn-icon" title="Mark as Done">
                                     <i class="fas fa-check"></i>
                                 </a>
-                                <a class="btn btn-danger btn-icon" title="Delete">
+                                <a href="{% url 'ToDoApplication:deleteTask' task.pk %}" class="btn btn-danger btn-icon"
+                                    title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
                                 <a class="btn btn-primary btn-icon" title="Edit">

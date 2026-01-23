@@ -23,3 +23,8 @@ def markAsUndone(request, pk):
     task.is_completed = False
     task.save()
     return redirect('home')
+
+def deleteTask(request, pk):
+    task = get_object_or_404(models.Task, pk=pk)
+    task.delete()
+    return redirect('home')

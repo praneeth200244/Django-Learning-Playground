@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>My Day | Django ToDo App</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #635bdb;
+        --primary-dark: #4f46c8;
+        --primary-light: #efedff;
+        --success: #15966a;
+        --success-light: #e8f8ef;
+        --danger: #dc3545;
+        --ink: #20243a;
+        --muted: #858ba3;
+        --border: #e8eaf2;
+        --background: #f6f7fc;
+        --white: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        background:
+          radial-gradient(ellipse at top left, #eeedff 0, transparent 42%),
+          var(--background);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* Page layout */
+
+      .page-content {
+        flex: 1 0 auto;
+        width: 100%;
+      }
+
+      .page-container {
+        max-width: 1160px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 8px 0 30px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+
+      .brand-icon {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #8177f7, #5146cb);
+        color: white;
+        box-shadow: 0 6px 18px #635bdb35;
+      }
+
+      .brand small {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.7px;
+      }
+
+      .workspace-pill {
+        padding: 10px 15px;
+        border: 1px solid #e7e6f8;
+        border-radius: 30px;
+        background: #ffffffbd;
+        color: var(--primary-dark);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .welcome {
+        margin-bottom: 28px;
+      }
+
+      .welcome h1 {
+        margin-bottom: 8px;
+        font-size: clamp(27px, 4vw, 36px);
+        font-weight: 800;
+        letter-spacing: -1.2px;
+      }
+
+      .welcome p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      /* Panels */
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .task-panel {
+        min-width: 0;
+        padding: 24px;
+        border: 1px solid var(--border);
+        border-radius: 19px;
+        background: var(--white);
+        box-shadow: 0 8px 35px #292b4a08;
+      }
+
+      .panel-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 7px;
+      }
+
+      .heading-icon {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border-radius: 14px;
+        font-size: 18px;
+      }
+
+      .heading-icon.purple {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+
+      .heading-icon.green {
+        background: var(--success-light);
+        color: var(--success);
+      }
+
+      .panel-heading h2 {
+        margin: 0 0 4px;
+        font-size: 18px;
+        font-weight: 750;
+      }
+
+      .panel-subtitle {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .count-badge {
+        margin-left: auto;
+        padding: 7px 10px;
+        border-radius: 9px;
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        font-size: 12px;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .count-badge.green {
+        background: var(--success-light);
+        color: var(--success);
+      }
+
+      /* Date and clock */
+
+      .date-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 22px 0;
+        padding: 17px;
+        border: 1px solid #eeebff;
+        border-radius: 15px;
+        background: linear-gradient(120deg, #f3f1ff, #f8f7ff);
+      }
+
+      .date-label {
+        margin-bottom: 5px;
+        color: #7972bf;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+      }
+
+      .date-value {
+        font-size: 14px;
+        font-weight: 750;
+        line-height: 1.5;
+      }
+
+      .clock {
+        color: var(--primary-dark);
+        font-size: clamp(18px, 2.5vw, 23px);
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .clock-label {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 10px;
+        text-align: right;
+      }
+
+      /* Section labels */
+
+      .list-label {
+        margin: 20px 0 12px;
+        color: #8a8fa4;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+      }
+
+      /* Task cards */
+
+      .task-card {
+        margin-bottom: 10px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--white);
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .task-card:hover {
+        border-color: #d8d4ff;
+        box-shadow: 0 5px 16px #3830a010;
+        transform: translateY(-1px);
+      }
+
+      .task-card .card-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .task-row {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        width: 100%;
+        min-width: 0;
+      }
+
+      .task-text {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        line-height: 1.6;
+        font-size: 14px;
+      }
+
+      /* Tick / untick checkbox */
+
+      .task-check-form {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        margin: 0;
+      }
+
+      .task-checkbox {
+        appearance: none;
+        -webkit-appearance: none;
+        display: grid;
+        place-content: center;
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+        margin: 0;
+        border: 2px solid #c9cddd;
+        border-radius: 7px;
+        background: white;
+        cursor: pointer;
+        transition:
+          background 0.18s,
+          border-color 0.18s;
+      }
+
+      .task-checkbox::before {
+        content: "\f00c";
+        font-family: FontAwesome;
+        font-size: 12px;
+        color: white;
+        transform: scale(0);
+        transition: transform 0.15s ease;
+      }
+
+      .task-checkbox:checked {
+        border-color: var(--success);
+        background: var(--success);
+      }
+
+      .task-checkbox:checked::before {
+        transform: scale(1);
+      }
+
+      .task-checkbox:focus-visible {
+        outline: 3px solid #635bdb40;
+        outline-offset: 3px;
+      }
+
+      .task-checkbox:disabled {
+        cursor: wait;
+        opacity: 0.7;
+      }
+
+      /* Task actions */
+
+      .task-actions {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+
+      .icon-btn {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        background: transparent;
+        color: #858ba3;
+        transition: all 0.2s ease;
+      }
+
+      .icon-btn:hover {
+        border-color: #e4e1ff;
+        background: #f2f0ff;
+        color: var(--primary);
+      }
+
+      .icon-btn.delete:hover {
+        border-color: #ffe0e0;
+        background: #fff1f1;
+        color: var(--danger);
+      }
+
+      /* Inline edit form */
+
+      .edit-form {
+        display: none;
+        flex: 1;
+        align-items: center;
+        min-width: 0;
+        gap: 8px;
+      }
+
+      .edit-input {
+        min-width: 0;
+        padding: 9px 11px;
+        border: 1px solid #c7c2ff;
+        border-radius: 9px;
+        font-size: 14px;
+      }
+
+      .edit-input:focus,
+      .add-task-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px #635bdb18;
+      }
+
+      .edit-actions {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+
+      .edit-actions .btn {
+        display: grid;
+        place-items: center;
+        width: 35px;
+        height: 35px;
+        padding: 0;
+      }
+
+      .task-card.editing .task-text,
+      .task-card.editing .task-actions,
+      .task-card.editing .task-check-form {
+        display: none;
+      }
+
+      .task-card.editing .edit-form {
+        display: flex;
+      }
+
+      .task-card.editing .edit-actions {
+        display: flex;
+      }
+
+      /* Completed tasks */
+
+      .completed-card {
+        background: #fcfdfc;
+      }
+
+      .completed-card .task-text {
+        color: #969bad;
+        text-decoration: line-through;
+        text-decoration-color: #b9c1cc;
+      }
+
+      /* Empty states */
+
+      .empty-state {
+        padding: 30px 12px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .empty-icon {
+        display: grid;
+        place-items: center;
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 13px;
+        border-radius: 18px;
+        background: var(--primary-light);
+        color: #8177df;
+        font-size: 24px;
+      }
+
+      .empty-icon.green {
+        background: var(--success-light);
+        color: var(--success);
+      }
+
+      .empty-state strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #444961;
+        font-size: 14px;
+      }
+
+      .empty-state p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      /* Add task */
+
+      .add-panel {
+        margin-top: 22px;
+      }
+
+      .add-panel h2 {
+        margin-bottom: 16px;
+        font-size: 16px;
+        font-weight: 750;
+      }
+
+      .add-task-input {
+        min-width: 0;
+        min-height: 49px;
+        padding: 12px 15px !important;
+        border-color: #e6e7f0;
+        border-radius: 10px 0 0 10px !important;
+        font-size: 14px;
+      }
+
+      .add-task-btn {
+        padding: 0 18px;
+        border: 1px solid var(--primary);
+        border-radius: 0 10px 10px 0 !important;
+        background: var(--primary);
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .add-task-btn:hover {
+        border-color: var(--primary-dark);
+        background: var(--primary-dark);
+      }
+
+      /* Footer */
+
+      .page-footer {
+        flex-shrink: 0;
+        margin-top: auto;
+        padding: 22px 15px;
+        border-top: 1px solid #e9eaf3;
+        color: #9398aa;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .page-footer .fa-heart {
+        color: var(--primary);
+      }
+
+      /* Responsive */
+
+      @media (max-width: 767px) {
+        .page-container {
+          padding-right: 16px;
+          padding-left: 16px;
+        }
+
+        .topbar {
+          padding-bottom: 24px;
+        }
+
+        .brand {
+          font-size: 16px;
+        }
+
+        .brand small {
+          font-size: 9px;
+        }
+
+        .workspace-pill {
+          padding: 8px 10px;
+          font-size: 10px;
+        }
+
+        .welcome {
+          margin-bottom: 22px;
+        }
+
+        .dashboard-grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 18px;
+        }
+
+        .task-panel {
+          padding: 18px;
+          border-radius: 16px;
+        }
+
+        .date-card {
+          padding: 14px;
+        }
+
+        .date-value {
+          font-size: 13px;
+        }
+
+        .task-card .card-body {
+          padding: 12px;
+        }
+
+        .task-row {
+          gap: 9px;
+        }
+
+        .task-actions {
+          gap: 2px;
+        }
+
+        .edit-form {
+          flex-wrap: wrap;
+        }
+
+        .edit-input {
+          width: 100%;
+        }
+
+        .edit-actions {
+          margin-left: auto;
+        }
+
+        .add-task-btn {
+          padding: 0 12px;
+          font-size: 12px;
+        }
+
+        .add-task-input {
+          font-size: 13px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .workspace-pill {
+          max-width: 110px;
+          text-align: center;
+        }
+
+        .date-card {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .clock-label {
+          text-align: left;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page-content">
+      <div class="container page-container py-4 py-md-5">
+        <!-- Header -->
+        <header class="topbar">
+          <div class="brand">
+            <div class="brand-icon">
+              <i class="fa fa-check"></i>
+            </div>
+
+            <div>
+              TaskFlow
+              <small>YOUR PERSONAL PRODUCTIVITY SPACE</small>
+            </div>
+          </div>
+
+          <div class="workspace-pill">
+            <i class="fa fa-calendar-o me-1"></i>
+            My workspace
+          </div>
+        </header>
+
+        <!-- Welcome -->
+        <section class="welcome">
+          <h1>Make today count. <span aria-hidden="true">✨</span></h1>
+          <p>A little progress each day adds up to big results.</p>
+        </section>
+
+        <div class="dashboard-grid">
+          <!-- Pending tasks -->
+          <section class="task-panel">
+            <div class="panel-heading">
+              <div class="heading-icon purple">
+                <i class="fa fa-sun-o"></i>
+              </div>
+
+              <div>
+                <h2>My Day</h2>
+                <div class="panel-subtitle">
+                  Your daily focus, all in one place
+                </div>
+              </div>
+
+              <span class="count-badge"> {{ tasks|length }} left </span>
+            </div>
+
+            <!-- Date and live clock -->
+            <div class="date-card">
+              <div>
+                <div class="date-label">TODAY</div>
+                <div class="date-value" id="current-date">
+                  {% now "l, j F Y" %}
+                </div>
+              </div>
+
+              <div>
+                <div
+                  class="clock"
+                  id="live-clock"
+                  aria-label="Current local time"
+                >
+                  --:--:--
+                </div>
+                <div class="clock-label">LOCAL TIME</div>
+              </div>
+            </div>
+
+            <div class="list-label">Tasks to complete</div>
+
+            <div class="task-list">
+              {% for task in tasks %}
+
+              <div class="card task-card" id="task-card-{{ task.pk }}">
+                <div class="card-body">
+                  <div class="task-row">
+                    <!-- Mark pending task as done -->
+                    <form
+                      action="{% url 'markAsDone' task.pk %}"
+                      method="POST"
+                      class="task-check-form"
+                    >
+                      {% csrf_token %}
+
+                      <input
+                        type="checkbox"
+                        class="task-checkbox"
+                        aria-label="Mark task as completed"
+                        title="Mark as completed"
+                      />
+                    </form>
+
+                    <!-- Task text -->
+                    <div class="task-text">{{ task.task }}</div>
+
+                    <!-- Inline edit form -->
+                    <form
+                      class="edit-form"
+                      action="{% url 'editTask' task.pk %}"
+                      method="POST"
+                    >
+                      {% csrf_token %}
+
+                      <input
+                        type="text"
+                        name="task"
+                        class="form-control edit-input"
+                        value="{{ task.task }}"
+                        aria-label="Edit task"
+                        maxlength="255"
+                        required
+                      />
+
+                      <div class="edit-actions">
+                        <button
+                          type="submit"
+                          class="btn btn-success btn-sm"
+                          title="Save changes"
+                          aria-label="Save changes"
+                        >
+                          <i class="fa fa-check"></i>
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn btn-light btn-sm cancel-edit"
+                          title="Cancel editing"
+                          aria-label="Cancel editing"
+                        >
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>
+                    </form>
+
+                    <!-- Edit and delete -->
+                    <div class="task-actions">
+                      <button
+                        type="button"
+                        class="icon-btn edit-button"
+                        title="Edit task"
+                        aria-label="Edit task"
+                      >
+                        <i class="fa fa-pencil"></i>
+                      </button>
+
+                      <form
+                        action="{% url 'deleteTask' task.pk %}"
+                        method="POST"
+                        onsubmit="
+                          return confirm(
+                            'Are you sure you want to delete this task?',
+                          );
+                        "
+                      >
+                        {% csrf_token %}
+
+                        <button
+                          type="submit"
+                          class="icon-btn delete"
+                          title="Delete task"
+                          aria-label="Delete task"
+                        >
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {% empty %}
+
+              <div class="empty-state">
+                <div class="empty-icon">
+                  <i class="fa fa-coffee"></i>
+                </div>
+                <strong>You're all caught up!</strong>
+                <p>Add a task below to plan your day.</p>
+              </div>
+
+              {% endfor %}
+            </div>
+          </section>
+
+          <!-- Completed tasks -->
+          <section class="task-panel">
+            <div class="panel-heading">
+              <div class="heading-icon green">
+                <i class="fa fa-check-circle"></i>
+              </div>
+
+              <div>
+                <h2>Completed</h2>
+                <div class="panel-subtitle">Look how far you've come</div>
+              </div>
+
+              <span class="count-badge green">
+                {{ completed_tasks|length }}
+              </span>
+            </div>
+
+            <div class="list-label">Finished tasks</div>
+
+            {% for task in completed_tasks %}
+
+            <div class="card task-card completed-card">
+              <div class="card-body">
+                <div class="task-row">
+                  <!-- Untick to mark task as pending -->
+                  <form
+                    action="{% url 'markAsUnDone' task.pk %}"
+                    method="POST"
+                    class="task-check-form"
+                  >
+                    {% csrf_token %}
+
+                    <input
+                      type="checkbox"
+                      class="task-checkbox"
+                      checked
+                      aria-label="Mark task as not completed"
+                      title="Mark as not completed"
+                    />
+                  </form>
+
+                  <div class="task-text">{{ task.task }}</div>
+
+                  <form
+                    action="{% url 'deleteTask' task.pk %}"
+                    method="POST"
+                    onsubmit="
+                      return confirm(
+                        'Are you sure you want to delete this task?',
+                      );
+                    "
+                  >
+                    {% csrf_token %}
+
+                    <button
+                      type="submit"
+                      class="icon-btn delete"
+                      title="Delete completed task"
+                      aria-label="Delete completed task"
+                    >
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            {% empty %}
+
+            <div class="empty-state">
+              <div class="empty-icon green">
+                <i class="fa fa-trophy"></i>
+              </div>
+              <strong>Your wins will appear here!</strong>
+              <p>Check off a task when you've finished it.</p>
+            </div>
+
+            {% endfor %}
+          </section>
+        </div>
+
+        <!-- Add task -->
+        <section class="task-panel add-panel">
+          <h2>
+            <i class="fa fa-plus-circle me-2" style="color: var(--primary)"></i>
+            Add a new task
+          </h2>
+
+          <form action="{% url 'addTask' %}" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+              <input
+                type="text"
+                name="task"
+                class="form-control add-task-input"
+                placeholder="What's one thing you want to accomplish?"
+                maxlength="255"
+                aria-label="New task"
+                required
+              />
+
+              <button type="submit" class="btn btn-primary add-task-btn">
+                <i class="fa fa-plus me-1"></i>
+                Add task
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer stays at the bottom on short pages -->
+    <footer class="page-footer">
+      Made with <i class="fa fa-heart" aria-hidden="true"></i>
+      for a more productive day
+      <span class="mx-1">·</span>
+      Django ToDo App &copy; {% now "Y" %}
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Display the current date and update the clock every second.
+        function updateDateTime() {
+          const now = new Date();
+
+          document.getElementById("current-date").textContent =
+            now.toLocaleDateString(undefined, {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            });
+
+          document.getElementById("live-clock").textContent =
+            now.toLocaleTimeString(undefined, {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: true,
+            });
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Submit the existing Django POST form when a checkbox changes.
+        document.querySelectorAll(".task-check-form").forEach(function (form) {
+          const checkbox = form.querySelector(".task-checkbox");
+
+          checkbox.addEventListener("change", function () {
+            checkbox.disabled = true;
+            form.submit();
+          });
+        });
+
+        // Enter inline edit mode.
+        document.querySelectorAll(".edit-button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            const card = button.closest(".task-card");
+            const input = card.querySelector(".edit-input");
+
+            // Close any other task currently being edited.
+            document
+              .querySelectorAll(".task-card.editing")
+              .forEach(function (editingCard) {
+                if (editingCard !== card) {
+                  cancelEditing(editingCard);
+                }
+              });
+
+            input.dataset.originalValue = input.value;
+            card.classList.add("editing");
+
+            input.focus();
+            input.select();
+          });
+        });
+
+        // Restore the original text when editing is cancelled.
+        function cancelEditing(card) {
+          const input = card.querySelector(".edit-input");
+
+          if (!input) {
+            return;
+          }
+
+          input.value = input.dataset.originalValue ?? input.value;
+          card.classList.remove("editing");
+        }
+
+        document.querySelectorAll(".cancel-edit").forEach(function (button) {
+          button.addEventListener("click", function () {
+            cancelEditing(button.closest(".task-card"));
+          });
+        });
+
+        // Prevent empty or whitespace-only task names.
+        document.querySelectorAll(".edit-form").forEach(function (form) {
+          form.addEventListener("submit", function (event) {
+            const input = form.querySelector(".edit-input");
+
+            if (!input.value.trim()) {
+              event.preventDefault();
+              input.value = "";
+              input.focus();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

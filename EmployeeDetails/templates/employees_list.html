@@ -1,0 +1,139 @@
+
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>All Employees | Employee Management System</title>
+
+    <link rel="stylesheet" href="{% static 'css/employees_list.css' %}">
+</head>
+
+<body>
+    <div class="page-container">
+
+        <main class="main-content">
+            <section class="employee-card">
+
+                <!-- Card Header -->
+                <div class="card-header">
+                    <h2>All Employees</h2>
+
+                    <div class="header-actions">
+                        <span class="employee-count">
+                            {{ employees|length }} Employees
+                        </span>
+
+                        <a href="{% url 'home' %}" class="home-btn">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="17"
+                                height="17"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="m3 10 9-7 9 7"></path>
+                                <path d="M5 9v11h14V9"></path>
+                                <path d="M9 20v-6h6v6"></path>
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Employee Table -->
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Date of Joining</th>
+                                <th>Designation</th>
+                                <th>Email Address</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for employee in employees %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+
+                                <td class="employee-name">
+                                    <a href="{% url 'employee_detail' employee.pk %}">
+                                        {{ employee.first_name }} {{ employee.last_name }}
+                                    </a>
+                                </td>
+
+                                <td>{{ employee.age }}</td>
+
+                                <td>
+                                    {{ employee.date_of_joining|date:"d-m-Y" }}
+                                </td>
+
+                                <td>
+                                    <span class="designation">
+                                        {{ employee.get_designation_display }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a href="mailto:{{ employee.email }}">
+                                        {{ employee.email }}
+                                    </a>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="empty-message">
+                                    <div class="empty-icon" aria-hidden="true">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="34"
+                                            height="34"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.6"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="10" cy="7" r="4"></circle>
+                                            <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                    </div>
+
+                                    <strong>No employees found</strong>
+                                    <p>Employee records will appear here.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <p>
+                Employee Management System
+                &copy; {% now "Y" %}
+            </p>
+        </footer>
+
+    </div>
+</body>
+</html>

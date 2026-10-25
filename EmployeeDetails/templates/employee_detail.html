@@ -1,0 +1,165 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      {{ employee.first_name }} {{ employee.last_name }} | Employee Profile
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/employee_detail.css' %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Navigation -->
+      <div class="top-bar">
+        <h2>Employee Management</h2>
+
+        <a href="{% url 'employees_list' %}" class="back-btn">
+          &#8592; Back to Employees
+        </a>
+      </div>
+
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="photo-container">
+          {% if employee.photo %}
+          <img
+            src="{{ employee.photo.url }}"
+            alt="{{ employee.first_name }} {{ employee.last_name }}"
+            class="profile-photo"
+          />
+          {% else %}
+          <div class="profile-photo placeholder-photo">No Photo</div>
+          {% endif %}
+        </div>
+
+        <div class="profile-info">
+          <h1>{{ employee.first_name }} {{ employee.last_name }}</h1>
+          <p>Employee ID: #{{ employee.id }}</p>
+
+          <span class="designation-badge">
+            {{ employee.get_designation_display }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Employee Details -->
+      <div class="details-card">
+        <h3 class="section-title">Personal Information</h3>
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">Employee ID</span>
+            <div class="detail-value">{{ employee.id }}</div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">First Name</span>
+            <div class="detail-value">{{ employee.first_name }}</div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Last Name</span>
+            <div class="detail-value">{{ employee.last_name }}</div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Age</span>
+            <div class="detail-value">{{ employee.age }} years</div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Date of Birth</span>
+            <div class="detail-value">
+              {{ employee.date_of_birth|date:"d M Y" }}
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Email Address</span>
+            <div class="detail-value">
+              <a href="mailto:{{ employee.email }}"> {{ employee.email }} </a>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Phone Number</span>
+            <div class="detail-value">
+              <a href="tel:{{ employee.phone_number }}">
+                {{ employee.phone_number }}
+              </a>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Designation</span>
+            <div class="detail-value">
+              {{ employee.get_designation_display }}
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Date of Joining</span>
+            <div class="detail-value">
+              {{ employee.date_of_joining|date:"d M Y" }}
+            </div>
+          </div>
+        </div>
+
+        <!-- System Information -->
+        <h3 class="section-title system-title">System Information</h3>
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">Profile Photo</span>
+            <div class="detail-value">
+              {% if employee.photo %}
+              <a
+                href="{{ employee.photo.url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Full Photo
+              </a>
+              {% else %}
+              <span class="empty-value">No photo uploaded</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Created At</span>
+            <div class="detail-value">
+              {{ employee.created_at|date:"d M Y, h:i A" }}
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Last Updated</span>
+            <div class="detail-value">
+              {{ employee.updated_at|date:"d M Y, h:i A" }}
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Deleted At</span>
+            <div class="detail-value">
+              {% if employee.deleted_at %} {{ employee.deleted_at|date:"d M Y,
+              h:i A" }} {% else %}
+              <span class="empty-value">Not deleted</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        Employee Management System &copy; {% now "Y" %}
+      </footer>
+    </div>
+  </body>
+</html>

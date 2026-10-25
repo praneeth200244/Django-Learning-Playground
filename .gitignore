@@ -1,0 +1,81 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+**/.venv/
+**/venv/
+**/env/
+
+# Django generated files
+*.log
+*.pot
+db.sqlite3
+*.sqlite3
+media/
+static/
+staticfiles/
+staticFiles/
+**/db.sqlite3
+**/media/
+**/static/
+**/staticfiles/
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage / testing
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.pytest_cache/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Build / packaging
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.spec
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.*
+
+# Pip / installer logs
+pip-log.txt
+pip-delete-this-directory.txt

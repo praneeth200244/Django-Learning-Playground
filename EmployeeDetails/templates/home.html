@@ -1,0 +1,178 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Employee Management System</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="logo">
+          <span class="logo-icon">E</span>
+          <span>Employee Management System</span>
+        </a>
+
+        <a href="{% url 'employees_list' %}" class="nav-button">
+          Show All Employees
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+      <!-- Hero section -->
+      <section class="hero">
+        <div class="hero-content">
+          <span class="eyebrow">EMPLOYEE MANAGEMENT</span>
+
+          <h1>
+            Welcome to the
+            <span>Employee Management System</span>
+          </h1>
+
+          <p class="hero-description">
+            A centralized platform to manage employee information, maintain
+            records, and access essential workforce details in one convenient
+            place.
+          </p>
+
+          <div class="hero-actions">
+            <a href="{% url 'employees_list' %}" class="primary-button">
+              View All Employees
+              <span>&rarr;</span>
+            </a>
+
+            <a href="#about" class="secondary-button"> Learn More </a>
+          </div>
+
+          <div class="hero-note">
+            <span class="status-dot"></span>
+            Simple, organized employee information
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-card">
+            <div class="visual-card-header">
+              <div>
+                <span class="small-label">WORKSPACE</span>
+                <h3>Employee Overview</h3>
+              </div>
+              <div class="overview-icon">&#128101;</div>
+            </div>
+
+            <div class="illustration">
+              <div class="illustration-circle circle-one"></div>
+              <div class="illustration-circle circle-two"></div>
+
+              <div class="person person-one">
+                <div class="person-head"></div>
+                <div class="person-body"></div>
+              </div>
+
+              <div class="person person-two">
+                <div class="person-head"></div>
+                <div class="person-body"></div>
+              </div>
+
+              <div class="person person-three">
+                <div class="person-head"></div>
+                <div class="person-body"></div>
+              </div>
+            </div>
+
+            <div class="visual-card-footer">
+              <div class="footer-symbol">&#10003;</div>
+              <div>
+                <strong>Organized records</strong>
+                <p>Employee information in one place</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-badge badge-top">
+            <span>&#10003;</span> Easy access
+          </div>
+
+          <div class="floating-badge badge-bottom">
+            &#128196; Employee records
+          </div>
+        </div>
+      </section>
+
+      <!-- About section -->
+      <section class="about-section" id="about">
+        <div class="section-heading">
+          <span class="eyebrow">ABOUT THE SYSTEM</span>
+          <h2>Everything in one place</h2>
+          <p>
+            The Employee Management System provides a convenient way to organize
+            and access employee-related information. It helps keep records
+            structured and easy to reference.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon icon-blue">&#128100;</div>
+            <h3>Employee Records</h3>
+            <p>
+              View employee names, contact information, designations, and other
+              relevant details.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-purple">&#128203;</div>
+            <h3>Organized Information</h3>
+            <p>
+              Keep employee details together in a centralized system for
+              convenient access and reference.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-green">&#128337;</div>
+            <h3>Employment Details</h3>
+            <p>
+              Reference joining dates, designations, and other important
+              employment information.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Call to action -->
+      <section class="cta-section">
+        <div>
+          <span class="eyebrow">GET STARTED</span>
+          <h2>Explore employee information</h2>
+          <p>
+            Access the employee directory to view available records and
+            employment details.
+          </p>
+        </div>
+
+        <a href="{% url 'employees_list' %}" class="cta-button">
+          Show All Employees &rarr;
+        </a>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p>
+        &copy; {% now "Y" %} Employee Management System. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
